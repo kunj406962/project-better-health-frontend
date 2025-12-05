@@ -23,12 +23,23 @@ export default function RegisterScreen({ navigation }) {
     const [error, setError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const {register}= useAuth();
-
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    
     const handleRegister = async () => {
         setError("");
 
         if (!name.trim() || !email.trim() || !password.trim() || !confirm.trim()) {
             setError("Please fill in all fields.");
+            return;
+        }
+
+        if (!emailRegex.test(email.trim())) {
+            setError("Please enter a valid email address.");
+            return;
+        }
+
+        if (password.trim().length < 8) {
+            setError("Password must be at least 8 characters long.");
             return;
         }
 
@@ -38,15 +49,16 @@ export default function RegisterScreen({ navigation }) {
         }
 
         setIsSubmitting(true);
-        const result= await register(name, email, password)
+        const result = await register(name, email, password);
         setIsSubmitting(false);
-        if(!result.success){
-            Alert.alert("Login Failed", result.error)
-        }
-        else{
-            navigation.navigate("Water")
+
+        if (!result.success) {
+            Alert.alert("Login Failed", result.error);
+        } else {
+            navigation.navigate("Water");
         }
     };
+
 
     return (
         <View style={styles.root}>

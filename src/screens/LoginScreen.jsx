@@ -22,6 +22,7 @@ export default function LoginScreen({ navigation }) {
     const [error, setError] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
     const {login}= useAuth();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     const handleSignIn = async () => {
         setError("");
@@ -31,16 +32,27 @@ export default function LoginScreen({ navigation }) {
             return;
         }
 
-        setIsSubmitting(true);
-        const result= await login(email, password)
-        setIsSubmitting(false)
-        if(!result.success){
-            Alert.alert("Login Failed", result.error)
+        if (!emailRegex.test(email.trim())) {
+            setError("Please enter a valid email address.");
+            return;
         }
-        else{
-            navigation.navigate("Water")
+
+        if (password.trim().length < 7) {
+            setError("Password must be at least 8 characters long.");
+            return;
+        }
+
+        setIsSubmitting(true);
+        const result = await login(email, password);
+        setIsSubmitting(false);
+
+        if (!result.success) {
+            Alert.alert("Login Failed", result.error);
+        } else {
+            navigation.navigate("Water");
         }
     };
+
 
     const handleGoogle = () => {
         navigation.navigate("Google")
