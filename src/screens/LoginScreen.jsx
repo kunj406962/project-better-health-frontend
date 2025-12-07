@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import {
+    Linking,
     View,
     Text,
     TextInput,
@@ -11,6 +12,8 @@ import {
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { useAuth } from "../contexts/AuthContext";
+import GoogleLogin from "../component/GoogleLogin";
+import OAuth from "./OAuth";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = Math.min(361, width - 32);
@@ -30,6 +33,14 @@ export default function LoginScreen({ navigation }) {
             setError("Please fill in both fields.");
             return;
         }
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            setError('Error Please enter a valid email address');
+            return;
+        }
+        if(password.length<8){
+            setError("Password has to be at least 8 character")
+            return;
+        }
 
         setIsSubmitting(true);
         const result= await login(email, password)
@@ -43,7 +54,7 @@ export default function LoginScreen({ navigation }) {
     };
 
     const handleGoogle = () => {
-        navigation.navigate("Google")
+        Alert.alert("Todo")
     };
 
     return (
@@ -172,7 +183,8 @@ export default function LoginScreen({ navigation }) {
                                 <Text style={styles.separatorLabel}>Or continue with</Text>
                             </View>
                         </View>
-
+                        <Text>Heyyyy</Text>
+                        <GoogleLogin/>
                         <TouchableOpacity
                             style={styles.socialButton}
                             onPress={handleGoogle}

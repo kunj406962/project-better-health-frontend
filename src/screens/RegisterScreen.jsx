@@ -32,6 +32,15 @@ export default function RegisterScreen({ navigation }) {
             return;
         }
 
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            setError('Error Please enter a valid email address');
+            return;
+        }
+        if(password.length<8){
+            setError("Password has to be at least 8 character")
+            return;
+        }
+
         if (password !== confirm) {
             setError("Passwords do not match.");
             return;

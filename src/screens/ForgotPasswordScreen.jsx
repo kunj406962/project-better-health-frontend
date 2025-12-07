@@ -10,6 +10,7 @@ import {
     Image
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import { API_BASE_URL } from "../config/api";
 
 const { width } = Dimensions.get("window");
 const CARD_WIDTH = Math.min(361, width - 32);
@@ -19,8 +20,9 @@ export default function ForgotPasswordScreen({ navigation }) {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const [isSending, setIsSending] = useState(false);
+    const [emailSent, setEmailSent] = useState(false);
 
-    const handleSend = () => {
+    const handleSend = async() => {
         setError("");
         setMessage("");
 
@@ -28,17 +30,42 @@ export default function ForgotPasswordScreen({ navigation }) {
             setError("Please enter your email.");
             return;
         }
+        if (!/\S+@\S+\.\S+/.test(email)) {
+            setError('Error', 'Please enter a valid email address');
+            return;
+        }
 
         setIsSending(true);
 
-        setTimeout(() => {
-            setIsSending(false);
-            setMessage(
-                "If this email exists, a reset link will be sent to your inbox."
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/forgot-password`, {
+                method: 'POST',
+                headers: {
+                'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+        });
+
+        const data = await response.json();
+
+        if (data.success) {
+            setEmailSent(true);
+            Alert.alert(
+            'Email Sent!',
+            'Check your email for the password reset link. Also check your spam folder.',
+            [{ text: 'OK' }]
             );
-            Alert.alert("Password", "Reset link simulation.");
-        }, 800);
-    };
+        } else {
+            setError('Error', data.message || 'Something went wrong');
+        }
+        } catch (error) {
+            setError('Forgot password error:', error);
+            Alert.alert('Network Error', 'Cannot connect to server. Please check your internet.');
+        } finally {
+            setIsSending(false);
+            navigation.navigate("Login")
+        }
+    } ;
 
     return (
         <View style={styles.root}>

@@ -6,7 +6,6 @@ import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ForgotPasswordScreen from "./screens/ForgotPasswordScreen";
 import WaterScreen from "./screens/WaterScreen";
-import GoogleAuthScreen from "./screens/GoogleAuthScreen";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 
 const Stack = createNativeStackNavigator();
@@ -25,7 +24,6 @@ export default function App() {
                         name="ForgotPassword"
                         component={ForgotPasswordScreen}
                     />
-                    <Stack.Screen name="Google" component={GoogleAuthScreen}/>
                     <Stack.Screen name="Water" component={WaterScreen}/>
                 </Stack.Navigator>
             </NavigationContainer>

@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     checkAuth();
   }, []);
-
+  
   const checkAuth = async () => {
     try {
       const storedToken = await AsyncStorage.getItem('authToken');

@@ -1,5 +1,5 @@
 // For Android Emulator
-export const API_BASE_URL = 'http://10.187.156.215:5000/api';
+export const API_BASE_URL = 'http://10.0.0.112:5000/api';
 
 // For iOS Simulator (when testing on iPhone simulator)
 // export const API_BASE_URL = 'http://localhost:5000/api';
