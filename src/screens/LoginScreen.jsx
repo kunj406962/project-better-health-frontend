@@ -119,6 +119,8 @@ export default function LoginScreen({ navigation }) {
                                     placeholderTextColor="#717182"
                                     autoCapitalize="none"
                                     keyboardType="email-address"
+                                    textContentType="none"
+                                    autoComplete="off"
                                     value={email}
                                     onChangeText={setEmail}
                                 />
@@ -138,6 +140,8 @@ export default function LoginScreen({ navigation }) {
                                     placeholder="Enter your password"
                                     placeholderTextColor="#717182"
                                     secureTextEntry={!showPassword}
+                                    textContentType="oneTimeCode"
+                                    autoComplete="off"
                                     value={password}
                                     onChangeText={setPassword}
                                 />

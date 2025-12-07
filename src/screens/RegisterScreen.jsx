@@ -125,6 +125,8 @@ export default function RegisterScreen({ navigation }) {
                                 placeholder="Create a password"
                                 placeholderTextColor="#717182"
                                 secureTextEntry
+                                textContentType="oneTimeCode"
+                                autoComplete="off"
                                 value={password}
                                 onChangeText={setPassword}
                             />
@@ -137,6 +139,8 @@ export default function RegisterScreen({ navigation }) {
                                 placeholder="Repeat the password"
                                 placeholderTextColor="#717182"
                                 secureTextEntry
+                                textContentType="oneTimeCode"
+                                autoComplete="off"
                                 value={confirm}
                                 onChangeText={setConfirm}
                             />
